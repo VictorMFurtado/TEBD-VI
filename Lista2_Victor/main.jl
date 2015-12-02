@@ -5,8 +5,11 @@ Implementar o k-NN
 =#
 
 include("knn.jl")
+include("cosseno.jl")
+include("euclidiana.jl")
 
 const k = 5
+const entrada = (953,378)
 
 # Mudando a pasta atual do Julia para a pasta deste arquivo
 cd(dirname(Base.source_path()))
@@ -26,4 +29,4 @@ for avaliacao = 1:size(avaliacoes,1)
 end
 
 # Chama o método knn passando alguma função de similaridade como parâmetro
-previsao = knn((1,1),matriz,k,cosseno)
+previsao = knn(entrada,matriz,k,euclidiana)
