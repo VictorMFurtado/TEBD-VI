@@ -38,9 +38,21 @@ for it = 1:qtd_treinamentos
     item = avaliacoes[i,2]
     nota = avaliacoes[i,3]
     nota_prevista = media + b_i[item] + b_u[usuario] + q_i[:,item]'*p_u[:,usuario]
-    b_i[item] = b_i[item] + y*((nota - nota_prevista) - lambda*b_i[item])
-    b_u[usuario] = b_u[usuario] + y*((nota - nota_prevista) - lambda*b_u[usuario])
-    q_i[:,item] = q_i[:,item] + y*((nota - nota_prevista)*p_u[:,usuario] - lambda*q_i[:,item])
-    p_u[:,usuario] = p_u[usuario] + y*((nota - nota_prevista)*q_i[:,item] - lambda*p_u[:,usuario])
+    b_i[item] = b_i[item] + y*((nota - nota_prevista[1]) - lambda*b_i[item])
+    b_u[usuario] = b_u[usuario] + y*((nota - nota_prevista[1]) - lambda*b_u[usuario])
+    q_i[:,item] = q_i[:,item] + y*((nota - nota_prevista[1])*p_u[:,usuario] - lambda*q_i[:,item])
+    p_u[:,usuario] = p_u[usuario] + y*((nota - nota_prevista[1])*q_i[:,item] - lambda*p_u[:,usuario])
   end
 end
+
+# Realizando os testes
+erro = 0
+for i = ind_teste
+  usuario = avaliacoes[i,1]
+  item = avaliacoes[i,2]
+  nota = avaliacoes[i,3]
+  nota_prevista = media + b_i[item] + b_u[usuario] + q_i[:,item]'*p_u[:,usuario]
+  erro += abs(nota - nota_prevista)
+end
+
+mae = erro / length(ind_teste)
